@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+							http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd
+							http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.0.xsd
+  							http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security.xsd
+  							http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd">
+
+
+	<!-- Configures a handler for serving static resources such as images, js, 
+		and, css files with cache headers optimized for efficient loading in a web 
+		browser. Allows resources to be served out of any path that is reachable 
+		via Spring's Resource handling. -->
+	<mvc:resources mapping="/resources/**" location="/resources/" />
+
+	<mvc:annotation-driven />
+	
+	
+	<!-- What package to use as a base when scanning for components to autowire -->
+	<context:component-scan base-package="com.hicollege" />
+	
+	
+	<!-- Tells spring where to look for .html files when it tries to resolve an incoming web page request-->
+	<bean
+		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<property name="prefix" value="/WEB-INF/" />
+		<property name="suffix" value=".html" />
+	</bean>
+	
+	
+	<!-- This is the Spring definition of our data source: We are using an open source version from Apache
+		 Basically tells the app how to access the DB -->
+	<bean id="dataSource" class="org.apache.commons.dbcp2.BasicDataSource"
+		destroy-method="close">
+		<property name="driverClassName" value="com.mysql.jdbc.Driver" />
+		<property name="url" value="jdbc:mysql://localhost:3306/hicollege" />
+		<property name="username" value="root" />
+		<property name="password" value="" />
+	</bean>
+	
+	
+	<!-- This tells the ap how to deal with sessions. We want to be able to have stuff like transaction management between thread and such. 
+		 And that requires sessions -->
+	<bean id="sessionFactory" class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
+		<property name="dataSource" ref="dataSource" />
+		    <property name="packagesToScan">
+        <list>
+            <value>annotations</value>
+        </list>
+    </property>
+		<property name="configLocation" value="classpath:hibernate.cfg.xml" />
+	</bean>
+	
+	
+	<!-- Gives the app support for transactions -->
+	<tx:annotation-driven />
+	<bean id="transactionManager" class="org.springframework.orm.hibernate4.HibernateTransactionManager">
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean>
+	
+</beans>

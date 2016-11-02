@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+
+<html lang="en" xmlns:ng="http://angularjs.org" id="ng-app" ng-app="hicollege_webapp" class="no-js">
+ <meta charset="UTF-8"> 
+
+<head>
+
+<script src="/resources/js/angular.min.js"></script>
+<script src="/resources/js/bootstrap.min.js"></script>
+<script src="/resources/angular_controllers/main.js"></script>
+<script src="/resources/angular_services/services.js"></script>
+<script src="/resources/angular_controllers/albumController.js"></script>
+<script src="/resources/angular_controllers/userController.js"></script>
+<link href="/resources/css/bootstrap.min.css" rel="stylesheet" media="screen">
+</head>
+<body>
+<div class="col-md-12" >
+	<br>
+	<div class="col-md-6" ng-controller="user_ctrl">
+	<h3 class="col-md-offset-3">Create a user:</h3>
+	<!-- User creation -->
+    	<div class="input-group col-md-6 col-md-offset-3">
+		  <span class="input-group-addon" id="basic-addon1">@</span>
+		  <input type="text" class="form-control" placeholder="Username" aria-describedby="basic-addon1" ng-model="username">
+		</div>
+		<br>
+		<div class="input-group col-md-6 col-md-offset-3">
+		  <span class="input-group-addon" id="basic-addon1">@</span>
+		  <input type="text" class="form-control" placeholder="Email" aria-describedby="basic-addon1" ng-model="email">
+		</div>
+		<br>
+		<div class="input-group col-md-6 col-md-offset-3">
+		  <span class="input-group-addon" id="basic-addon1">@</span>
+		  <input type="text" class="form-control" placeholder="Age" aria-describedby="basic-addon1" ng-model="age">
+		</div>
+		<br>
+		<div class="input-group col-md-6 col-md-offset-3">
+		  <span class="input-group-addon" id="basic-addon1">@</span>
+		  <input type="text" class="form-control" placeholder="Albums" aria-describedby="basic-addon1" ng-model="user_albums">
+		</div>
+		<br>
+		<div class="container center col-md-offset-3">
+			<button type="button" class="btn btn-success" ng-click="addUser()">Create user</button>
+			<button type="button" class="btn btn-success" ng-click="getAllUsers()">Get users</button>
+    	</div>
+    	<br>
+    	<table class="table table-striped col-md-3 col-md-offset-3" style="max-width:400px">
+		   	<tbody >
+		 		<td>Username</td> <td>Age</td> <td>Email</td> <td>Albums</td> <td> </td>
+				<tr ng-repeat='usr in users'>
+			 		<td>{{usr.name}}</td> <td>{{usr.age}}</td> <td>{{usr.email}}</td> <td>{{albumService.test(usr.albums)}}</td> <td> <button type="button" class="btn btn-danger" ng-click="deleteUser(usr.name)"> Delete user </button> </td>
+			 	</tr>
+			</tbody>
+		</table>
+		<br>
+		<div class="alert alert-success col-md-4 col-md-offset-4" ng-show="displaySuccess">
+		  {{status.message}}
+		</div>
+		<div class="alert alert-danger col-md-4 col-md-offset-4" ng-show="displayFail">
+		  {{status.message}} AKSJFDHKJAHSDJKAHSDKJASHDKJH
+		</div>
+	</div>
+	<div class="col-md-6" ng-controller="album_ctrl">
+		<!-- Album creation -->
+		<h3>Create an album:</h3>
+		<br>
+		<div class="input-group col-md-6">
+		  <span class="input-group-addon" id="basic-addon1">@</span>
+		  <input type="text" class="form-control" placeholder="Title" aria-describedby="basic-addon1" ng-model="albumTitle">
+		</div>
+		<br>
+		<div class="input-group col-md-6">
+		  <span class="input-group-addon" id="basic-addon1">@</span>
+		  <input type="text" class="form-control" placeholder="Songs" aria-describedby="basic-addon1" ng-model="albumSongs">
+		</div>
+		<br>
+		<div class="input-group col-md-6">
+		  <span class="input-group-addon" id="basic-addon1">@</span>
+		  <input type="text" class="form-control" placeholder="Artists" aria-describedby="basic-addon1" ng-model="albumArtists">
+		</div>
+		<br>
+		<div class="container center">
+			<button type="button" class="btn btn-success" ng-click="addAlbum()">Create album</button>
+			<button type="button" class="btn btn-success" ng-click="getAllAlbums()">Get albums</button>
+		</div>
+		<br>
+    	<table class="table table-striped col-md-3" style="max-width:400px">
+		   	<tbody >
+		 		<td>Title</td> <td>Songs</td> <td>Artists</td> <td> </td>
+				<tr ng-repeat='album in albums'>
+			 		<td>{{album.title}}</td> <td>{{album.songs}}</td> <td>{{album.artists}}</td> <td> <button type="button" class="btn btn-danger" ng-click="deleteAlbum(album.title)"> Delete album </button> </td>
+			 	</tr>
+			</tbody>
+		</table>
+		<div class="alert alert-success col-md-4 col-md-offset-2" ng-show="displaySuccess">
+		  {{status.message}}
+		</div>
+		<div class="alert alert-danger col-md-4 col-md-offset-2" ng-show="displayFail">
+		  {{status.message}}
+		</div>
+	</div>
+</div>
+<br>
+</body>
+</html>

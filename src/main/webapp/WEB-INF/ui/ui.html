@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+
+<html lang="en" xmlns:ng="http://angularjs.org" id="ng-app" ng-app="hicollege_webapp" class="no-js">
+ <meta charset="UTF-8"> 
+
+<head>
+
+<script src="/resources/js/angular.min.js"></script>
+<script src="/resources/js/bootstrap.min.js"></script>
+<script src="/resources/angular_controllers/controller.js"></script>
+<link href="/resources/css/bootstrap.min.css" rel="stylesheet" media="screen">
+</head>
+<body ng-controller="hicollege_ctrl">
+		<br>
+    	<div class="input-group col-md-3 col-md-offset-2">
+		  <span class="input-group-addon" id="basic-addon1">@</span>
+		  <input type="text" class="form-control" placeholder="Username" aria-describedby="basic-addon1" ng-model="username">
+		</div>
+		<br>
+		<div class="input-group col-md-3 col-md-offset-2">
+		  <span class="input-group-addon" id="basic-addon1">@</span>
+		  <input type="text" class="form-control" placeholder="Email" aria-describedby="basic-addon1" ng-model="email">
+		</div>
+		<br>
+		<div class="input-group col-md-3 col-md-offset-2">
+		  <span class="input-group-addon" id="basic-addon1">@</span>
+		  <input type="text" class="form-control" placeholder="Age" aria-describedby="basic-addon1" ng-model="age">
+		</div>
+		<br>
+		<div class="container center col-md-offset-2">
+			<button type="button" class="btn btn-success" ng-click="addUser(); getAllUsers()">Create user</button>
+    	</div>
+    	<br> 
+		<table class="table table-striped col-md-offset-2" style="max-width:400px">
+    	<tbody >
+	 		<td>Username</td> <td>Age</td> <td>Email</td> <td>Albums</td> 
+			<tr ng-repeat='usr in users'>
+			 	<td>{{usr.name}}</td> <td>{{usr.age}}</td> <td>{{usr.email}}</td> 
+			 </tr>
+		</tbody>
+		</table>
+		<br>
+</body>
+</html>
