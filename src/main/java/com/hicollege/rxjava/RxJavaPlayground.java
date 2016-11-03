@@ -35,9 +35,37 @@ public class RxJavaPlayground {
 		System.out.println("---------------------");
 		mergingWithErrorAndFallback();
 
+		System.out.println("");
+		System.out.println("---------------------");
+		Observable<String> myObs1 = Observable.create(t -> {
+			t.onNext("One");
+			t.onNext("Two");
+			t.onNext("Three");
+			t.onNext("Four");
+			t.onNext("Five");
+		});
+
+		Observable<Integer> myObs2 = Observable.create(t -> {
+			t.onNext(1);
+			t.onNext(2);
+			t.onNext(3);
+			t.onNext(4);
+			t.onCompleted();
+		});
+		// Ta upp exemplet om vad som händer om en observable emittar mycket snabbare än den andra?
+		// Femman emittas inte heller, OBS!
+		Observable
+		.zip(myObs1.subscribeOn(Schedulers.io()), myObs2.subscribeOn(Schedulers.io()), (str ,num) -> str + " " + num.toString())
+		.toBlocking()
+		.forEach(str -> System.out.println(str));
+
 	}
 
 	private static void mergingWithErrorAndFallback() {
+		/*
+		 * Really nice error handling! If an error occurs, we can use the onErrorReturn to
+		 * fall back to e.g. an error value
+		 */
 		Observable<String> myObs1 = Observable.create(t -> {
 			t.onNext("1");
 			sleep(150);
@@ -64,8 +92,8 @@ public class RxJavaPlayground {
 			t.onCompleted();
 		});
 
+		// Note the "0" in the print out - I.e. the default error value.
 		Observable
-		// Note the Schedulers.io() calls to parallellize and perform these tasks asynchronously!
 		.merge(mapped.subscribeOn(Schedulers.io()), myObs2.subscribeOn(Schedulers.io()))
 		.toBlocking()
 		.forEach(s -> System.out.println(s + NEWLINE));
