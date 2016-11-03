@@ -18,7 +18,7 @@ public class EventProducer {
 	private static String generateStringsWithDelay(int millis) {
 		if(millis > 0) {
 			try {
-				Thread.sleep(millis);
+				Thread.sleep(Math.round(millis * Math.random()));
 			} catch (InterruptedException e) {}
 		}
 		return Integer.toString(ThreadLocalRandom.current().nextInt(0, 100 + 1));
