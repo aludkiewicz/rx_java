@@ -37,6 +37,27 @@ public class RxJavaPlayground {
 
 		System.out.println("");
 		System.out.println("---------------------");
+		zippingObservables();
+
+
+		//Backpressure example
+		//		Observable<Integer> myObs1 = Observable.create(t -> {
+		//			int i = 0;
+		//			while(true) {
+		//				t.onNext(i++);
+		//			}
+		//		});
+		//
+		//		Observable<Double> myObs2 = Observable.create(t -> {
+		//			int i = 0;
+		//			while(true) {
+		//				t.onNext(i++);
+		//			}
+		//		});
+
+	}
+
+	private static void zippingObservables() {
 		Observable<String> myObs1 = Observable.create(t -> {
 			t.onNext("One");
 			t.onNext("Two");
@@ -52,13 +73,11 @@ public class RxJavaPlayground {
 			t.onNext(4);
 			t.onCompleted();
 		});
-		// Ta upp exemplet om vad som händer om en observable emittar mycket snabbare än den andra?
-		// Femman emittas inte heller, OBS!
+		// Note that "Five" never gets emitted!
 		Observable
 		.zip(myObs1.subscribeOn(Schedulers.io()), myObs2.subscribeOn(Schedulers.io()), (str ,num) -> str + " " + num.toString())
 		.toBlocking()
 		.forEach(str -> System.out.println(str));
-
 	}
 
 	private static void mergingWithErrorAndFallback() {
