@@ -19,14 +19,25 @@ public class QueueSubscriber {
 
 		Observable<Message> msgObs = Observable.create( sub -> {
 			while(true) {
-				Message msg = template.receive(RandomNumQ.randNumQ);
+				Message msg = template.receive(AlphabetQ.alphabetQ);
 				if(msg == null) {
+					sleep(300);
 					continue;
 				}
+				sleep(300);
 				sub.onNext(msg);
 			}
 		});
 
-		msgObs.toBlocking().forEach(m -> System.out.println(m));
+		msgObs.subscribe(m -> System.out.println(
+				"---------------------------------------------------\n\n\n" +
+						new String(m.getBody())
+				));
+	}
+
+	private static void sleep(int millis) {
+		try {
+			Thread.sleep(millis);
+		} catch (Exception e) {}
 	}
 }

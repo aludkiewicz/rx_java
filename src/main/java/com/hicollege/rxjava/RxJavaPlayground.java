@@ -200,7 +200,7 @@ public class RxJavaPlayground {
 
 		Action1<? super Stream<String>> onNextAction = strm -> strm.limit(20).forEach(s -> System.out.println(s));
 		Action1<Throwable> onErrorAction = ex -> System.out.println(ex);
-		Action0 onCompletedAction = () -> System.out.println("Derp");
+		Action0 onCompletedAction = () -> System.out.println("Done!");
 		myObservable2.subscribe(onNextAction, onErrorAction, onCompletedAction);
 	}
 
